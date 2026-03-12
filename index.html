@@ -383,64 +383,68 @@ body{background:var(--bg);font-family:'Press Start 2P',monospace;color:#fff;min-
 // ═══════════════════════════════════
 const SFX = (() => {
   let ctx = null;
-  function getCtx(){
-    if(!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)();
-    if(ctx.state==='suspended') ctx.resume();
-    return ctx;
+
+  // Devuelve una Promise que se resuelve con ctx cuando esté en state 'running'
+  function ready(){
+    if(!ctx) ctx=new(window.AudioContext||window.webkitAudioContext)();
+    if(ctx.state==='running') return Promise.resolve(ctx);
+    return ctx.resume().then(()=>ctx);
   }
 
   function beep({freq=440, type='square', duration=0.1, vol=0.3, slide=0, delay=0}){
-    try{
-      const c=getCtx();
-      const o=c.createOscillator();
-      const g=c.createGain();
-      o.connect(g); g.connect(c.destination);
-      o.type=type;
-      const base=c.state==='running'?0:0.15;
-      const t=c.currentTime+base+delay;
-      o.frequency.setValueAtTime(freq,t);
-      if(slide) o.frequency.linearRampToValueAtTime(slide, t+duration);
-      g.gain.setValueAtTime(0,t);
-      g.gain.linearRampToValueAtTime(vol, t+0.01);
-      g.gain.exponentialRampToValueAtTime(0.001, t+duration);
-      o.start(t); o.stop(t+duration+0.05);
-    }catch(e){}
+    ready().then(c=>{
+      try{
+        const o=c.createOscillator();
+        const g=c.createGain();
+        o.connect(g); g.connect(c.destination);
+        o.type=type;
+        const t=c.currentTime+0.02+delay;
+        o.frequency.setValueAtTime(freq,t);
+        if(slide) o.frequency.linearRampToValueAtTime(slide,t+duration);
+        g.gain.setValueAtTime(0,t);
+        g.gain.linearRampToValueAtTime(vol,t+0.01);
+        g.gain.exponentialRampToValueAtTime(0.001,t+duration);
+        o.start(t); o.stop(t+duration+0.05);
+      }catch(e){}
+    });
   }
 
   function noise({duration=0.1, vol=0.15, delay=0}){
-    try{
-      const c=getCtx();
-      const buf=c.createBuffer(1,c.sampleRate*duration,c.sampleRate);
-      const d=buf.getChannelData(0);
-      for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
-      const src=c.createBufferSource();
-      const g=c.createGain();
-      const f=c.createBiquadFilter();
-      f.type='bandpass'; f.frequency.value=800;
-      src.buffer=buf; src.connect(f); f.connect(g); g.connect(c.destination);
-      const base=c.state==='running'?0:0.15;
-      const t=c.currentTime+base+delay;
-      g.gain.setValueAtTime(vol,t);
-      g.gain.exponentialRampToValueAtTime(0.001,t+duration);
-      src.start(t); src.stop(t+duration+0.05);
-    }catch(e){}
+    ready().then(c=>{
+      try{
+        const buf=c.createBuffer(1,c.sampleRate*duration,c.sampleRate);
+        const d=buf.getChannelData(0);
+        for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+        const src=c.createBufferSource();
+        const g=c.createGain();
+        const f=c.createBiquadFilter();
+        f.type='bandpass'; f.frequency.value=800;
+        src.buffer=buf; src.connect(f); f.connect(g); g.connect(c.destination);
+        const t=c.currentTime+0.02+delay;
+        g.gain.setValueAtTime(vol,t);
+        g.gain.exponentialRampToValueAtTime(0.001,t+duration);
+        src.start(t); src.stop(t+duration+0.05);
+      }catch(e){}
+    });
   }
 
-  // Desbloquear AudioContext en cada interacción hasta confirmarlo como 'running'
-  // iOS y algunos Android requieren buffer silencioso + resume dentro del gesto
+  // Unlock: crear el ctx y llamar resume() SINCRÓNICAMENTE dentro del gesto del usuario.
+  // iOS requiere que resume() se llame dentro del call stack del evento táctil.
   (function(){
     function _unlock(){
       try{
         if(!ctx) ctx=new(window.AudioContext||window.webkitAudioContext)();
-        if(ctx.state==='running') return; // ya desbloqueado
-        const buf=ctx.createBuffer(1,1,22050);
+        if(ctx.state==='running') return;
+        ctx.resume(); // llamada SÍNCRONA dentro del gesto — iOS lo requiere así
+        // buffer silencioso extra para iOS <13
+        const buf=ctx.createBuffer(1,ctx.sampleRate,ctx.sampleRate);
         const src=ctx.createBufferSource();
         src.buffer=buf; src.connect(ctx.destination); src.start(0);
-        ctx.resume();
       }catch(e){}
     }
+    // capture:true → dispara ANTES que los handlers de botones
     ['touchstart','touchend','click'].forEach(ev=>
-      document.addEventListener(ev,_unlock,{passive:true})
+      document.addEventListener(ev,_unlock,{capture:true,passive:true})
     );
   })();
 
