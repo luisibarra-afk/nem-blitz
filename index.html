@@ -396,7 +396,8 @@ const SFX = (() => {
       const g=c.createGain();
       o.connect(g); g.connect(c.destination);
       o.type=type;
-      const t=c.currentTime+delay;
+      const base=c.state==='running'?0:0.15;
+      const t=c.currentTime+base+delay;
       o.frequency.setValueAtTime(freq,t);
       if(slide) o.frequency.linearRampToValueAtTime(slide, t+duration);
       g.gain.setValueAtTime(0,t);
@@ -417,27 +418,30 @@ const SFX = (() => {
       const f=c.createBiquadFilter();
       f.type='bandpass'; f.frequency.value=800;
       src.buffer=buf; src.connect(f); f.connect(g); g.connect(c.destination);
-      const t=c.currentTime+delay;
+      const base=c.state==='running'?0:0.15;
+      const t=c.currentTime+base+delay;
       g.gain.setValueAtTime(vol,t);
       g.gain.exponentialRampToValueAtTime(0.001,t+duration);
       src.start(t); src.stop(t+duration+0.05);
     }catch(e){}
   }
 
-  // Desbloquear AudioContext en el primer toque/click (iOS requiere buffer silencioso)
+  // Desbloquear AudioContext en cada interacción hasta confirmarlo como 'running'
+  // iOS y algunos Android requieren buffer silencioso + resume dentro del gesto
   (function(){
     function _unlock(){
       try{
         if(!ctx) ctx=new(window.AudioContext||window.webkitAudioContext)();
-        if(ctx.state==='suspended') ctx.resume();
-        // iOS Safari requiere reproducir un buffer silencioso para desbloquear el audio
+        if(ctx.state==='running') return; // ya desbloqueado
         const buf=ctx.createBuffer(1,1,22050);
         const src=ctx.createBufferSource();
         src.buffer=buf; src.connect(ctx.destination); src.start(0);
+        ctx.resume();
       }catch(e){}
     }
-    document.addEventListener('touchstart',_unlock,{once:true,passive:true});
-    document.addEventListener('click',_unlock,{once:true,passive:true});
+    ['touchstart','touchend','click'].forEach(ev=>
+      document.addEventListener(ev,_unlock,{passive:true})
+    );
   })();
 
   return {
