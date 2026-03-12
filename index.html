@@ -290,6 +290,8 @@ body{background:var(--bg);font-family:'Press Start 2P',monospace;color:#fff;min-
     <button class="btn btn-green" onclick="startGame()">🔄 VOLVER A INTENTAR</button>
     <button class="btn btn-teal btn-sm" onclick="showBoard()">🏆 RANKING</button>
   </div>
+</div>
+
 <!-- ═══ PROFILE ═══ -->
 <div class="scr" id="s-profile">
   <div class="profile-title">👤 MI PERFIL</div>
@@ -363,6 +365,19 @@ const SFX = (() => {
       src.start(t); src.stop(t+duration+0.05);
     }catch(e){}
   }
+
+  // Desbloquear AudioContext en el primer toque/click (necesario en móviles)
+  (function(){
+    function _unlock(){
+      try{
+        if(!ctx) ctx=new(window.AudioContext||window.webkitAudioContext)();
+        if(ctx.state==='suspended') ctx.resume();
+      }catch(e){}
+    }
+    ['touchstart','touchend','click'].forEach(function(ev){
+      document.addEventListener(ev,_unlock,{once:true,passive:true});
+    });
+  })();
 
   return {
     // ✅ Respuesta correcta — acorde ascendente alegre
