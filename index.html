@@ -77,7 +77,7 @@ body{background:var(--bg);font-family:'Press Start 2P',monospace;color:#fff;min-
 .q-box::before{content:'';position:absolute;left:0;top:0;width:3px;height:100%;background:var(--q-color,#00cc66);}
 
 /* CHOICES */
-.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.choices{display:grid;grid-template-columns:1fr;gap:8px;flex:1;grid-auto-rows:1fr;}
 .choice{background:#050f08;border:2px solid #00cc6633;color:#ccc;font-family:'Press Start 2P',monospace;font-size:.43rem;padding:12px 10px;cursor:pointer;text-align:left;line-height:1.8;transition:all .1s;position:relative;}
 .choice:hover:not(:disabled){border-color:var(--q-color,#00cc66);color:#00cc66;background:#091a10;}
 .choice.ok{border-color:#00ff44!important;color:#00ff44!important;background:#001a0a!important;box-shadow:0 0 15px #00ff4433!important;}
@@ -142,7 +142,6 @@ body{background:var(--bg);font-family:'Press Start 2P',monospace;color:#fff;min-
 .combo-flash{position:fixed;top:30%;left:50%;transform:translateX(-50%);font-family:'Press Start 2P',monospace;font-size:clamp(.8rem,4vw,1.2rem);color:#ffcc00;text-shadow:0 0 20px #ffcc00aa;pointer-events:none;z-index:400;animation:comboflash .6s cubic-bezier(.34,1.56,.64,1) forwards;}
 @keyframes comboflash{0%{opacity:0;transform:translateX(-50%) scale(.5)}40%{opacity:1;transform:translateX(-50%) scale(1.2)}100%{opacity:0;transform:translateX(-50%) scale(.8)}}
 
-@media(max-width:380px){.choices{grid-template-columns:1fr;}}
 
 /* ═══════════════ BADGES ═══════════════ */
 #s-profile{background:var(--bg);text-align:center;}
@@ -366,17 +365,20 @@ const SFX = (() => {
     }catch(e){}
   }
 
-  // Desbloquear AudioContext en el primer toque/click (necesario en móviles)
+  // Desbloquear AudioContext en el primer toque/click (iOS requiere buffer silencioso)
   (function(){
     function _unlock(){
       try{
         if(!ctx) ctx=new(window.AudioContext||window.webkitAudioContext)();
         if(ctx.state==='suspended') ctx.resume();
+        // iOS Safari requiere reproducir un buffer silencioso para desbloquear el audio
+        const buf=ctx.createBuffer(1,1,22050);
+        const src=ctx.createBufferSource();
+        src.buffer=buf; src.connect(ctx.destination); src.start(0);
       }catch(e){}
     }
-    ['touchstart','touchend','click'].forEach(function(ev){
-      document.addEventListener(ev,_unlock,{once:true,passive:true});
-    });
+    document.addEventListener('touchstart',_unlock,{once:true,passive:true});
+    document.addEventListener('click',_unlock,{once:true,passive:true});
   })();
 
   return {
