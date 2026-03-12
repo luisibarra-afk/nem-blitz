@@ -314,7 +314,30 @@ body{background:var(--bg);font-family:'Press Start 2P',monospace;color:#fff;min-
 
 <!-- GAME OVER -->
 <div class="scr" id="s-over">
-  <div class="over-icon" id="over-icon">🌱</div>
+  <div class="over-icon" id="over-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="88" height="88" role="img" aria-label="CBTis 179 logo">
+      <polygon points="60,6 70.9,19.4 87,13.2 89.7,30.3 106.8,33 100.6,49.1 114,60 100.6,70.9 106.8,87 89.7,89.7 87,106.8 70.9,100.6 60,114 49.1,100.6 33,106.8 30.3,89.7 13.2,87 19.4,70.9 6,60 19.4,49.1 13.2,33 30.3,30.3 33,13.2 49.1,19.4" fill="#8b0000" opacity="0.3" transform="translate(2,2)"/>
+      <polygon points="60,6 70.9,19.4 87,13.2 89.7,30.3 106.8,33 100.6,49.1 114,60 100.6,70.9 106.8,87 89.7,89.7 87,106.8 70.9,100.6 60,114 49.1,100.6 33,106.8 30.3,89.7 13.2,87 19.4,70.9 6,60 19.4,49.1 13.2,33 30.3,30.3 33,13.2 49.1,19.4" fill="#cc2200"/>
+      <circle cx="60" cy="60" r="36" fill="#1a56a0"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(0,60,60)"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(45,60,60)"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(90,60,60)"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(135,60,60)"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(180,60,60)"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(225,60,60)"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(270,60,60)"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(315,60,60)"/>
+      <circle cx="60" cy="60" r="24" fill="#111"/>
+      <path d="M78,60 A18,18 0 0,0 60,42" stroke="#00a650" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M60,42 A18,18 0 0,0 42,60" stroke="#f5a800" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M42,60 A18,18 0 0,0 60,78" stroke="#cc2200" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <circle cx="80" cy="48" r="4.5" fill="#00a650"/>
+      <circle cx="40" cy="60" r="3.5" fill="#00a650"/>
+      <circle cx="60" cy="80" r="3.5" fill="#f5a800"/>
+      <text x="60" y="57" font-family="Georgia,serif" font-size="7" font-weight="bold" fill="#d4a017" text-anchor="middle" letter-spacing="0.5">CBTis</text>
+      <text x="60" y="68" font-family="Georgia,serif" font-size="8.5" font-weight="bold" fill="#d4a017" text-anchor="middle" letter-spacing="1">179</text>
+    </svg>
+  </div>
   <div style="font-size:.5rem;color:#558866;margin-bottom:4px">PUNTUACIÓN FINAL</div>
   <div class="over-score" id="over-score">0</div>
   <div class="over-best" id="over-best"></div>
@@ -676,7 +699,8 @@ function gameOver(){
   saveScore(G.name,G.score,r.data.name);const _secret=checkSecretBadge();
   const acc=G.answered>0?Math.round(G.correct/G.answered*100):0;
   const newSkinIdx=getSkinIdx(G.name);
-  document.getElementById('over-icon').textContent=G.score>=3000?'🏆':G.score>=1000?'⭐':'🌱';
+  const _logoSVG=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="88" height="88"><polygon points="60,6 70.9,19.4 87,13.2 89.7,30.3 106.8,33 100.6,49.1 114,60 100.6,70.9 106.8,87 89.7,89.7 87,106.8 70.9,100.6 60,114 49.1,100.6 33,106.8 30.3,89.7 13.2,87 19.4,70.9 6,60 19.4,49.1 13.2,33 30.3,30.3 33,13.2 49.1,19.4" fill="#8b0000" opacity="0.3" transform="translate(2,2)"/><polygon points="60,6 70.9,19.4 87,13.2 89.7,30.3 106.8,33 100.6,49.1 114,60 100.6,70.9 106.8,87 89.7,89.7 87,106.8 70.9,100.6 60,114 49.1,100.6 33,106.8 30.3,89.7 13.2,87 19.4,70.9 6,60 19.4,49.1 13.2,33 30.3,30.3 33,13.2 49.1,19.4" fill="#cc2200"/><circle cx="60" cy="60" r="36" fill="#1a56a0"/><circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(0,60,60)"/><circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(45,60,60)"/><circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(90,60,60)"/><circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(135,60,60)"/><circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(180,60,60)"/><circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(225,60,60)"/><circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(270,60,60)"/><circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(315,60,60)"/><circle cx="60" cy="60" r="24" fill="#111"/><path d="M78,60 A18,18 0 0,0 60,42" stroke="#00a650" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M60,42 A18,18 0 0,0 42,60" stroke="#f5a800" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M42,60 A18,18 0 0,0 60,78" stroke="#cc2200" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="80" cy="48" r="4.5" fill="#00a650"/><circle cx="40" cy="60" r="3.5" fill="#00a650"/><circle cx="60" cy="80" r="3.5" fill="#f5a800"/><text x="60" y="57" font-family="Georgia,serif" font-size="7" font-weight="bold" fill="#d4a017" text-anchor="middle" letter-spacing="0.5">CBTis</text><text x="60" y="68" font-family="Georgia,serif" font-size="8.5" font-weight="bold" fill="#d4a017" text-anchor="middle" letter-spacing="1">179</text></svg>`;
+  document.getElementById('over-icon').innerHTML=G.score>=3000?'🏆':G.score>=1000?'⭐':_logoSVG;
   document.getElementById('over-score').textContent=G.score.toLocaleString();
   document.getElementById('over-best').textContent='MEJOR: '+(isNewBest?G.score:G.best).toLocaleString();
   const re=document.getElementById('over-rank');
