@@ -79,7 +79,7 @@ body{background:var(--bg);font-family:'Press Start 2P',monospace;color:#fff;min-
 
 /* CHOICES */
 .choices{display:grid;grid-template-columns:1fr;gap:8px;flex:1;grid-auto-rows:1fr;}
-.choice{background:#050f08;border:2px solid #00cc6633;color:#ccc;font-family:'Press Start 2P',monospace;font-size:.43rem;padding:12px 10px;cursor:pointer;text-align:left;line-height:1.8;transition:all .1s;position:relative;}
+.choice{background:#050f08;border:2px solid #00cc6633;color:#ccc;font-family:'Press Start 2P',monospace;font-size:.58rem;padding:12px 10px;cursor:pointer;text-align:left;line-height:1.8;transition:all .1s;position:relative;}
 .choice:hover:not(:disabled){border-color:var(--q-color,#00cc66);color:#00cc66;background:#091a10;}
 .choice.ok{border-color:#00ff44!important;color:#00ff44!important;background:#001a0a!important;box-shadow:0 0 15px #00ff4433!important;}
 .choice.bad{border-color:#ff2244!important;color:#ff2244!important;background:#1a0008!important;}
@@ -192,38 +192,35 @@ body{background:var(--bg);font-family:'Press Start 2P',monospace;color:#fff;min-
 <div class="scr on" id="s-title">
   <div class="t-badge">CBTis 179 · DGETI · HIDALGO</div>
   <div class="t-hero">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="88" height="88" role="img" aria-label="CBTis 179 logo">
-      <!-- gear shadow -->
-      <polygon points="62,4 64.8,7.4 68.9,5.5 70.1,9.5 74.5,9.1 74,13.2 78.2,14.1 76,17.8 79.7,19.9 76.3,22.8 79,26.5 74.8,28.2 76.3,32.3 72,32.7 72.2,36.9 67.9,36 66.8,40.1 62.9,37.9 60.7,41.6 57.9,38.4 54.5,41.3 53.4,37.1 49.1,38.7 49.6,34.5 45.3,34.5 47,30.5 43.1,29.5 45.9,26.1 42.7,23.6 46.5,21.6 44.6,17.7 48.8,17 48.2,12.8 52.4,13.4 53.1,9.3 57.1,11.2 58.8,7.3" fill="#8b0000" opacity="0.25" transform="translate(2,2)"/>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="96" height="96" role="img" aria-label="CBTis 179 logo">
+      <!-- gear shadow (centered at 60,60, outer r=54, inner r=42, 12 teeth) -->
+      <polygon points="60,6 70.9,19.4 87,13.2 89.7,30.3 106.8,33 100.6,49.1 114,60 100.6,70.9 106.8,87 89.7,89.7 87,106.8 70.9,100.6 60,114 49.1,100.6 33,106.8 30.3,89.7 13.2,87 19.4,70.9 6,60 19.4,49.1 13.2,33 30.3,30.3 33,13.2 49.1,19.4" fill="#8b0000" opacity="0.3" transform="translate(2,2)"/>
       <!-- gear red -->
-      <polygon points="62,4 64.8,7.4 68.9,5.5 70.1,9.5 74.5,9.1 74,13.2 78.2,14.1 76,17.8 79.7,19.9 76.3,22.8 79,26.5 74.8,28.2 76.3,32.3 72,32.7 72.2,36.9 67.9,36 66.8,40.1 62.9,37.9 60.7,41.6 57.9,38.4 54.5,41.3 53.4,37.1 49.1,38.7 49.6,34.5 45.3,34.5 47,30.5 43.1,29.5 45.9,26.1 42.7,23.6 46.5,21.6 44.6,17.7 48.8,17 48.2,12.8 52.4,13.4 53.1,9.3 57.1,11.2 58.8,7.3" fill="#cc2200"/>
+      <polygon points="60,6 70.9,19.4 87,13.2 89.7,30.3 106.8,33 100.6,49.1 114,60 100.6,70.9 106.8,87 89.7,89.7 87,106.8 70.9,100.6 60,114 49.1,100.6 33,106.8 30.3,89.7 13.2,87 19.4,70.9 6,60 19.4,49.1 13.2,33 30.3,30.3 33,13.2 49.1,19.4" fill="#cc2200"/>
       <!-- blue ring -->
-      <circle cx="61" cy="23" r="38" fill="#1a56a0"/>
-      <!-- 8 holes on ring -->
-      <circle cx="61" cy="-9.5" r="4.2" fill="#0d2f5e" transform="rotate(0,61,23)"/>
-      <circle cx="61" cy="-9.5" r="4.2" fill="#0d2f5e" transform="rotate(45,61,23)"/>
-      <circle cx="61" cy="-9.5" r="4.2" fill="#0d2f5e" transform="rotate(90,61,23)"/>
-      <circle cx="61" cy="-9.5" r="4.2" fill="#0d2f5e" transform="rotate(135,61,23)"/>
-      <circle cx="61" cy="-9.5" r="4.2" fill="#0d2f5e" transform="rotate(180,61,23)"/>
-      <circle cx="61" cy="-9.5" r="4.2" fill="#0d2f5e" transform="rotate(225,61,23)"/>
-      <circle cx="61" cy="-9.5" r="4.2" fill="#0d2f5e" transform="rotate(270,61,23)"/>
-      <circle cx="61" cy="-9.5" r="4.2" fill="#0d2f5e" transform="rotate(315,61,23)"/>
+      <circle cx="60" cy="60" r="36" fill="#1a56a0"/>
+      <!-- 8 holes on ring at r=29 -->
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(0,60,60)"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(45,60,60)"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(90,60,60)"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(135,60,60)"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(180,60,60)"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(225,60,60)"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(270,60,60)"/>
+      <circle cx="60" cy="31" r="4" fill="#0d2f5e" transform="rotate(315,60,60)"/>
       <!-- black center -->
-      <circle cx="61" cy="23" r="26" fill="#111"/>
-      <!-- tricolor C arc (counterclockwise arcs, radius 20) -->
-      <!-- green top-right to top-left -->
-      <path d="M81,23 A20,20 0 0,0 61,3" stroke="#00a650" stroke-width="6.5" fill="none" stroke-linecap="round"/>
-      <!-- yellow top-left to bottom-left -->
-      <path d="M61,3 A20,20 0 0,0 41,23" stroke="#f5a800" stroke-width="6.5" fill="none" stroke-linecap="round"/>
-      <!-- red bottom-left to bottom-right -->
-      <path d="M41,23 A20,20 0 0,0 61,43" stroke="#cc2200" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+      <circle cx="60" cy="60" r="24" fill="#111"/>
+      <!-- tricolor C arc (CCW, r=18, center 60,60, opens to the right) -->
+      <path d="M78,60 A18,18 0 0,0 60,42" stroke="#00a650" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M60,42 A18,18 0 0,0 42,60" stroke="#f5a800" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M42,60 A18,18 0 0,0 60,78" stroke="#cc2200" stroke-width="6" fill="none" stroke-linecap="round"/>
       <!-- accent dots -->
-      <circle cx="82" cy="7" r="5" fill="#00a650"/>
-      <circle cx="40" cy="23" r="3.5" fill="#00a650"/>
-      <circle cx="61" cy="44" r="4" fill="#f5a800"/>
+      <circle cx="80" cy="48" r="4.5" fill="#00a650"/>
+      <circle cx="40" cy="60" r="3.5" fill="#00a650"/>
+      <circle cx="60" cy="80" r="3.5" fill="#f5a800"/>
       <!-- gold text -->
-      <text x="61" y="19" font-family="Georgia,serif" font-size="7.5" font-weight="bold" fill="#d4a017" text-anchor="middle" letter-spacing="0.5">CBTis</text>
-      <text x="61" y="29" font-family="Georgia,serif" font-size="9" font-weight="bold" fill="#d4a017" text-anchor="middle" letter-spacing="1">179</text>
+      <text x="60" y="57" font-family="Georgia,serif" font-size="7" font-weight="bold" fill="#d4a017" text-anchor="middle" letter-spacing="0.5">CBTis</text>
+      <text x="60" y="68" font-family="Georgia,serif" font-size="8.5" font-weight="bold" fill="#d4a017" text-anchor="middle" letter-spacing="1">179</text>
     </svg>
   </div>
   <div class="t-logo">NEM<br>BLITZ</div>
